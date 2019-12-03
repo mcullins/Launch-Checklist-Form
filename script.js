@@ -13,6 +13,14 @@ window.addEventListener("load", function(){
          alert("Must enter all information");
          event.preventDefault();
       }
+      if (Number.isNaN(pilot.value) === false ||
+         Number.isNaN(copilot.value) === false||
+         Number.isInteger(parseInt(fuelLevel.value)) === false ||
+         Number.isInteger(parseInt(cargoMass.value)) === false){
+         alert("Must enter valid data type");
+         console.log(isNaN(parseInt(pilot.value)), typeof(copilot.value), typeof(fuelLevel.value), typeof(parseInt(cargoMass.value)));
+         event.preventDefault();  
+      }
    })
 })
 
