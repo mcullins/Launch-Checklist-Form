@@ -19,8 +19,7 @@ window.addEventListener("load", function(){
       if(pilot.value === "" || copilot.value === "" || fuelLevel.value === "" || cargoMass.value === ""){
          alert("Must enter all information");
          event.preventDefault();
-      }
-      if (isNaN(pilot.value) === false || 
+      } else if (isNaN(pilot.value) === false || 
           isNaN(copilot.value) === false ||
           isNaN(fuelLevel.value) === true || 
           isNaN(cargoMass.value) === true){
