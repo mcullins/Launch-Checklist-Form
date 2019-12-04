@@ -1,11 +1,18 @@
 // Write your JavaScript code here!
 
 window.addEventListener("load", function(){
-   let pilot = document.querySelector("input[name='pilotName']");
-   let copilot = document.querySelector("input[name='copilotName']");
-   let fuelLevel = document.querySelector("input[name='fuelLevel']");
-   let cargoMass = document.querySelector("input[name='cargoMass']");
-   let button = document.getElementById("formSubmit");
+   const pilot = document.querySelector("input[name='pilotName']");
+   const copilot = document.querySelector("input[name='copilotName']");
+   const fuelLevel = document.querySelector("input[name='fuelLevel']");
+   const cargoMass = document.querySelector("input[name='cargoMass']");
+   const pilotStatus = document.getElementById("pilotStatus");
+   const copilotStatus = document.getElementById("copilotStatus");
+   const fuelStatus = document.getElementById("fuelStatus");
+   const cargoStatus = document.getElementById("cargoStatus")
+   const faultyItems = document.getElementById("faultyItems");
+   const button = document.getElementById("formSubmit");
+   const launchStatus = document.getElementById("launchStatus");
+   
 
    button.addEventListener("click", function(event){
 
@@ -13,25 +20,50 @@ window.addEventListener("load", function(){
          alert("Must enter all information");
          event.preventDefault();
       }
-      if (Number.isNaN(pilot.value) === false ||
-         Number.isNaN(copilot.value) === false||
-         Number.isInteger(parseInt(fuelLevel.value)) === false ||
-         Number.isInteger(parseInt(cargoMass.value)) === false){
+      if (isNaN(pilot.value) === false || 
+          isNaN(copilot.value) === false ||
+          isNaN(fuelLevel.value) === true || 
+          isNaN(cargoMass.value) === true){
          alert("Must enter valid data type");
-         console.log(isNaN(parseInt(pilot.value)), typeof(copilot.value), typeof(fuelLevel.value), typeof(parseInt(cargoMass.value)));
          event.preventDefault();  
       }
+     
+      pilotStatus.innerHTML = `Pilot ${pilot.value} is ready to launch!`
+      copilotStatus.innerHTML = `Co-pilot ${copilot.value} is ready to launch!`
+      
+      if (fuelLevel.value < 10000){
+         faultyItems.style.visibility = 'visible';
+         fuelStatus.innerHTML = `Not enough fuel to launch.`
+         launchStatus.innerHTML = `Shuttle not ready to launch`;
+         launchStatus.style.color = 'Red';
+      } else if (cargoMass.value > 10000){
+         faultyItems.style.visibility = 'visible';
+         cargoStatus.innerHTML = `Too much cargo mass to launch.`;
+         launchStatus.innerHTML = `Shuttle not ready to launch`;
+         launchStatus.style.color = 'Red';
+      } else {
+         launchStatus.innerHTML = `Shuttle ready to launch!`;
+         launchStatus.style.color = 'Green';
+      }
    })
+
+   fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
+      response.json().then(function(json){
+         const missionTarget = document.getElementById("missionTarget");
+         let index = Math.floor(Math.random() * 6);
+         missionTarget.innerHTML =`
+            <h2>Mission Destination</h2>
+               <ol>
+                  <li>Name: ${json[index].name}</li>
+                  <li>Diameter: ${json[index].diameter}</li>
+                  <li>Star: ${json[index].star}</li>
+                  <li>Distance from Earth: ${json[index].distance}</li>
+                  <li>Number of Moons: ${json[index].moons}</li>
+               </ol>
+            <img src="${json[index].image}">
+         `
+       })
+   });
 })
 
-/* This block of code shows how to format the HTML once you fetch some planetary JSON!
-<h2>Mission Destination</h2>
-<ol>
-   <li>Name: ${}</li>
-   <li>Diameter: ${}</li>
-   <li>Star: ${}</li>
-   <li>Distance from Earth: ${}</li>
-   <li>Number of Moons: ${}</li>
-</ol>
-<img src="${}">
-*/
+
