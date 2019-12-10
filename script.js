@@ -13,9 +13,7 @@ window.addEventListener("load", function(){
    const button = document.getElementById("formSubmit");
    const launchStatus = document.getElementById("launchStatus");
    
-
-   button.addEventListener("click", function(event){
-
+   function validateDataEntered(){
       if(pilot.value === "" || copilot.value === "" || fuelLevel.value === "" || cargoMass.value === ""){
          alert("Must enter all information");
          event.preventDefault();
@@ -26,10 +24,9 @@ window.addEventListener("load", function(){
          alert("Must enter valid data type");
          event.preventDefault();  
       }
-     
-      pilotStatus.innerHTML = `Pilot ${pilot.value} is ready to launch!`
-      copilotStatus.innerHTML = `Co-pilot ${copilot.value} is ready to launch!`
-      
+   }
+
+   function showLaunchStatus(){
       if (fuelLevel.value < 10000){
          faultyItems.style.visibility = 'visible';
          fuelStatus.innerHTML = `Not enough fuel to launch.`
@@ -49,6 +46,15 @@ window.addEventListener("load", function(){
          launchStatus.innerHTML = `Shuttle ready to launch!`;
          launchStatus.style.color = 'Green';
       }
+   }
+
+   button.addEventListener("click", function(event){
+      validateDataEntered();
+      showLaunchStatus();
+
+      pilotStatus.innerHTML = `Pilot ${pilot.value} is ready to launch!`
+      copilotStatus.innerHTML = `Co-pilot ${copilot.value} is ready to launch!`
+       
    })
 
    fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
