@@ -32,12 +32,7 @@ window.addEventListener("load", function(){
          fuelStatus.innerHTML = `Not enough fuel to launch.`
          launchStatus.innerHTML = `Shuttle not ready to launch`;
          launchStatus.style.color = 'Red';
-      } else {
-         launchStatus.innerHTML = `Shuttle ready to launch!`;
-         launchStatus.style.color = 'Green';
-      }
-      
-      if (cargoMass.value > 10000){
+      } else if (cargoMass.value > 10000){
          faultyItems.style.visibility = 'visible';
          cargoStatus.innerHTML = `Too much cargo mass to launch.`;
          launchStatus.innerHTML = `Shuttle not ready to launch`;
@@ -45,6 +40,8 @@ window.addEventListener("load", function(){
       } else {
          launchStatus.innerHTML = `Shuttle ready to launch!`;
          launchStatus.style.color = 'Green';
+         fuelStatus.innerHTML = `Enough fuel to launch!`
+         cargoStatus.innerHTML = `Low enough cargo mass to launch!`;
       }
    }
 
